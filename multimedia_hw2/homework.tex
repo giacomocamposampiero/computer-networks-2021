@@ -85,7 +85,7 @@ done
 \end{verbatim}
 \end{quote}
 Questo script permette di testare il comando \texttt{ping} specificando diversi valori di TTL ($\in[8, 15]$) e di salvare i risultati ottenuti in un file denominato \texttt{ttl.txt}. In questo modo risulta possibile verificare per che valore di soglia i pacchetti smettono di essere scartati da nodi intermedi e arrivano effettivamente al server destinazione. Il valore di hop tra la macchina mittente e il server di destinazione è stato sperimentalmente verificato essere \textbf{$13$}.\\\\
-Il \textit{Round-Trip Time} (RTT) corrisponde alla somma dei ritardi accumulati nel percorso di andata (tra sorgente e destinazione) e di ritorno (viceversa). Numerando da 1 a \textit{n} i nodi attraversati durante l'intero tragitto comprensivo di andata e ritorno, il RTT del \textit{k}-esimo scambio request-reply può essere calcolato come
+Il \textit{Round-Trip Time} (RTT) corrisponde invece alla somma dei ritardi accumulati nel percorso di andata (tra sorgente e destinazione) e di ritorno (viceversa). Numerando da 1 a \textit{n} i nodi attraversati durante l'intero tragitto comprensivo di andata e ritorno, il RTT del \textit{k}-esimo scambio request-reply può essere calcolato come
 \begin{align*}
 RTT(k) = \sum_{i=1}^{n} \left( \frac{L(k)}{R_i} + q_i(k) + \tau_i \right)
 \end{align*}
