@@ -17,15 +17,14 @@
    \author{Giacomo Camposampiero, matricola 1187180} 
    \date{20 novembre 2020}
    \maketitle
-   \vspace{2.2cm}
+   \vspace{9.2cm}
    \renewcommand{\contentsname}{Indice}      
    \tableofcontents
    \newpage
 
 \section{Comando \texttt{ping} }
-\texttt{ping} (Packet INternet Groper) è un software di amministrazione per reti di computer utilizzato per verificare la raggiungibilità di un host all'interno di una rete IP. Questa applicazione è supportata nella maggior parte dei sistemi operativi comuni ed è ampiamente utilizzata come strumento elementare di diagnostica di rete. 
-
-Il funzionamento di \texttt{ping} è interamente basato sul protocollo ICMP (Internet Control Message Protocol, RFC 792), che si appoggia direttamente ai servizi offerti dall'Internet Protocol, senza coinvolgere alcun tipo di servizio di livello di trasporto. L'applicazione invia una serie di pacchetti \texttt{ICMP Echo Request} ad una destinazione, la quale risponde ad ogni pacchetto ricevuto inviando un corrispettivo pacchetto \texttt{ICMP Echo Reply} di risposta della stessa dimensione della richiesta. Una rappresentazione grafica della struttura di un pacchetto ICMP è riportata in Figura \ref{fig:ICMP}. \texttt{ping} misura il cosiddetto \textit{Round-Trip Time} (RTT), ovvero il tempo che intercorre tra l'invio della richiesta e la ricezione della risposta, per poi visualizzarlo in output.
+\texttt{ping} (Packet INternet Groper) è un software di amministrazione per reti di computer utilizzato per verificare la raggiungibilità di un host all'interno di una rete IP. Questa applicazione è supportata nella maggior parte dei sistemi operativi comuni ed è ampiamente utilizzata come strumento elementare di diagnostica di rete. \\\\
+Il funzionamento di \texttt{ping} è interamente basato sul protocollo ICMP (Internet Control Message Protocol, RFC 792), che si appoggia direttamente ai servizi offerti dall'Internet Protocol, senza coinvolgere alcun tipo di servizio di livello di trasporto. L'applicazione invia una serie di pacchetti ICMP Echo Request ad una destinazione, la quale risponde ad ogni pacchetto ricevuto inviando un corrispettivo pacchetto ICMP Echo Reply di risposta della stessa dimensione della richiesta. Una rappresentazione grafica della struttura di un pacchetto ICMP è riportata in Figura \ref{fig:ICMP}. \texttt{ping} misura il cosiddetto \textit{Round-Trip Time} (RTT), ovvero il tempo che intercorre tra l'invio della richiesta e la ricezione della risposta, per poi visualizzarlo in output.
 
 \begin{figure}[h!]
 	\centering
@@ -34,29 +33,59 @@ Il funzionamento di \texttt{ping} è interamente basato sul protocollo ICMP (Int
   	\label{fig:ICMP}
 \end{figure}
 
-
-\subsection{Opzioni}
+\subsection{Opzioni da linea di comando}
 Il software \texttt{ping} offre numerose opzioni da linea di comando, che possono variare a seconda del sistema operativo in cui è implementato e dei privilegi posseduti dall'utente che lo invoca. Una lista delle opzioni disponibili può essere ottenuta dall'utente mediante l'invocazione del comando \texttt{man ping}. Di seguito è riportato un elenco delle opzioni che sono state giudicate più utili nella valutazione delle prestazioni di una connessione.
 \begin{itemize}
-\item Prova
+
+\item \textbf{\texttt{-f}}: Flood ping. For every ECHO REQUEST sent a period “.” is printed, while for ever ECHO REPLY received a backspace is printed. This provides a rapid display of how many packets are being dropped. If interval is not given, it sets interval to zero and outputs packets as fast as they come back or one hundred times per second, whichever is more. Only the super-user may use this option with zero interval.
+
+\item \textbf{\texttt{-i interval}}: Wait interval seconds between sending each packet. The default is to wait for one second between each packet normally, or not to wait in flood mode. Only super-user may set interval to values less than 0.2 seconds.
+
+\item \textbf{\texttt{-m mark}}: use mark to tag the packets going out. This is useful for variety of reasons within the kernel such as using policy routing to select specific outbound processing.
+
+\item \textbf{\texttt{-O}}: Report outstanding ICMP ECHO reply before sending next packet. This is useful together with the timestamp -D to log output to a diagnostic file and search for missing answers.
+
+\item \textbf{\texttt{-p pattern}}: You may specify up to 16 “pad” bytes to fill out the packet you send. This is useful for diagnosing data-dependent problems in a network. For example, -p ff will cause the sent packet to be filled with all ones.
+
+\item \textbf{\texttt{-Q tos}}: Set Quality of Service -related bits in ICMP datagrams.  tos can be decimal (ping only) or hex number.
+
+\item \textbf{\texttt{-R}}: ping only. Record route. Includes the RECORD ROUTE option in the ECHO REQUEST packet and displays the route buffer on returned packets. Note that the IP header is only large enough for nine such routes. Many hosts ignore or discard this option.
+
+\item \textbf{\texttt{-T timestamp option}}: Set special IP timestamp options.  timestamp option may be either tsonly (only timestamps), tsandaddr (timestamps and addresses) or tsprespec host1 [host2 [host3 [host4]]] (timestamp prespecified hops).
+
+\item \textbf{\texttt{-U}}:  Print full user-to-user latency (the old behaviour). Normally ping prints network round trip time, which can be different f.e. due to DNS failures.
+
+\item \textbf{\texttt{-w deadline}}: Specify a timeout, in seconds, before ping exits regardless of how many packets have been sent or received. In this case ping does not stop after count packet are sent, it waits either for deadline expire or until count probes are answered or for some error notification from network.
+
+\item \textbf{\texttt{-W timeout}}: Time to wait for a response, in seconds. The option affects only timeout in absence of any responses, otherwise ping waits for two RTTs.
 \end{itemize}
-Al fine di definire il numero \textit{C} di pacchetti ICMP ECHO REQUEST inviati per ogni sessione, è presente nel programma la seguente opzione.
+Per quanto riguarda invece le opzioni che permettono l'attivazione di specifiche funzionalità definite nella consegna, ne è stata verificata l'esistenza e riportato il formato di seguito.
+\begin{itemize}
+
+\item \textbf{\texttt{-c count}}: dopo aver inviato \textit{count} pacchetti ECHO REQUEST, ne interrompe l'invio, rimanendo in attesa dei \textit{count} pacchetti ECHO REPLY (se utilizzato insieme ad opzioni che permettono di specificare una deadline, \texttt{ping} aspetta al massimo fino a che il timeout non termina e alcune request potrebbero non ricevere risposta) 
+
+\item \textbf{\texttt{-s packetsize}}: specifica il numero di data byte da inviare. Il default corrisponde a 56 data bytes, che si traducono in una dimensione totale del pacchetto di 64 ICMP data bytes considerando anche gli 8 bytes dell'header. Si ricorda inoltre che la dimensione dei pacchetti IP è in ogni caso maggiore rispetto a questa, in quanto vengono aggiunti 20 bytes di header IP.
+
+\item \textbf{\texttt{-t ttl}}: permette di definire il campo \textit{Time-To-Live} (TTL) dell'header IP. 
+
+\end{itemize}
+
+\newpage
+\subsection{Time-To-Live e Round-Trip Time}
+Il \textit{Time-To-Live} (TTL) è una campo dell'header IP che viene impostato dal mittente e decrementato ogni volta che il pacchetto è inoltrato da un nodo intermedio nella rete. Se un nodo che non è il destinatario finale riceve un pacchetto il cui TTL è pari ad 1, il campo è decrementato ed il pacchetto scartato. Pertanto, il TTL determina il numero di inoltri (hop) che un pacchetto può subire prima di raggiungere la destinazione.\\\\
+Al fine di testare il numero di hop che separano la macchina da cui sono stati svolti gli esperimenti dal server destinazione (88.80.187.84) è stato scritto un breve script di shell Linux, riportato di seguito.
 \begin{quote}
 \begin{verbatim}
--c count
-	Stop after sending count ECHO_REQUEST packets. With deadline option, ping 
-	waits for count ECHO_REPLY packets, until the timeout expires.
+echo "Time-To-Live Experiment" > ttl.txt
+for i in  8 9 10 11 12 13 14 15 
+do
+  echo "TTL $i" >> ttl.txt
+  ping -q -c 15 -t $i 88.80.187.84 >> ttl.txt
+done
 \end{verbatim}
-\end{quote}  
-
-\newpage
-
-\printbibliography
-
-\newpage
-
-\subsection{RTT}
-RTT corrisponde alla somma dei ritardi accumulati nel percorso di andata (tra sorgente e destinazione) e di ritorno (viceversa). Numerando da 1 a \textit{n} i nodi attraversati durante l'intero tragitto comprensivo di andata e ritorno, il RTT del \textit{k}-esimo scambio request-reply si calcola come
+\end{quote}
+Questo script permette di testare il comando \texttt{ping} specificando diversi valori di TTL ($\in[8, 15]$) e di salvare i risultati ottenuti in un file denominato \texttt{ttl.txt}. In questo modo risulta possibile verificare per che valore di soglia i pacchetti smettono di essere scartati da nodi intermedi e arrivano effettivamente al server destinazione. Il valore di hop tra la macchina mittente e il server di destinazione è stato sperimentalmente verificato essere \textbf{$13$}.\\\\
+Il \textit{Round-Trip Time} (RTT) corrisponde alla somma dei ritardi accumulati nel percorso di andata (tra sorgente e destinazione) e di ritorno (viceversa). Numerando da 1 a \textit{n} i nodi attraversati durante l'intero tragitto comprensivo di andata e ritorno, il RTT del \textit{k}-esimo scambio request-reply può essere calcolato come
 \begin{align*}
 RTT(k) = \sum_{i=1}^{n} \left( \frac{L(k)}{R_i} + q_i(k) + \tau_i \right)
 \end{align*}
@@ -68,137 +97,9 @@ dove
 \item $\tau_i$ è il tempo di propagazione lungo il link \textit{i}-esimo.
 \end{itemize}
 
-\subsection{Simulare il diagramma di Bode dell'ampiezza tra 1Hz e 100 kHz}
-Per simulare il diagramma di Bode dell'ampiezza e' stato utilizzato il listato SPICE riportato di seguito. Il risultato dell'analisi in frequenza e' riportato graficamente (Figure \ref{fig:bode1}).
-\begin{quote}
-\begin{verbatim}
-* Esercizio 1.3
-Vin N1 0 DC 0 AC 1 sin(0 10mV 10kHz 0 0 0)
-VDD N2 0 10V
-VSS N3 0 -10V
-XU1 Vp Vn N2 N3 Vo LT1028
-C2 Vp N1 100n
-R2 Vp 0 100k
-R4 Vn Vo 10k
-R3 Vn 0 1k
-.lib LTC.lib
-.ac DEC 10 1 100k
-.backanno
-.end
-\end{verbatim}
-\end{quote}
-
-
-\subsection{Per quale ampiezza del segnale di ingresso l'uscita satura? Simulare la forma  d'onda di uscita per un segnale di ingresso di ampiezza pari a 2 volte il valore trovato}
-Innanzitutto, troviamo sperimentalmente l'ampiezza a cui satura l'amplificatore operazionale, fornendo al circuito segnali di svariate ampiezze e medesima frequenza (10kHz) in ingresso. Per fare cio', parametrizziamo l'ampiezza del segnale in ingresso e la facciamo variare a step di 200mV tra 100mV e 3V.
-\small
-\begin{quote}
-\begin{verbatim}
-* Esercizio 1.4
-Vin N1 0 DC 0 AC 1 sin(0 {A} 10kHz 0 0 0)
-VDD N2 0 10V
-VSS N3 0 -10V
-XU1 Vp Vn N2 N3 Vo LT1028
-C2 Vp N1 100n
-R2 Vp 0 100k
-R4 Vn Vo 10k
-R3 Vn 0 1k
-.lib LTC.lib
-.tran 0 0.5m
-.step param A 100m 3 200m
-.backanno
-.end
-\end{verbatim}
-\end{quote}
-\normalsize
-\begin{figure}[h!]
-	\centering
-  	\caption{Forma d'onda in uscita al variare dell'ampiezza in ingresso.}
-  	\label{fig:sat1}
-\end{figure}
-Dai risultati sperimentali si puo' dedurre che l'amplificatore satura ad un'ampiezza all'incirca pari a $8$V (se fosse ideale saturerebbe ad un'ampiezza in modulo di $10$V, ovvero la tensione di alimentazione in modulo fornita all'amplificatore operazionale). Troviamo analiticamente l'ampiezza del segnale in ingresso per cui appare il fenomeno di distorsione.
-\begin{gather*}
-	\lvert V_o \rvert\ = \lvert W(j\omega) \rvert\ \cdot \lvert V_{in} \rvert\ = \lvert \frac{2200j\pi}{1+200j\pi} \rvert\ \cdot \lvert V_{in} \rvert\ \\
-	\Rightarrow \lvert V_{in} \rvert\ = \frac{8\cdot \sqrt{1+400\pi^2}}{2200\pi} = 0.727\,V
-\end{gather*}
-La forma d'onda del segnale di uscita, nel caso di un ingresso di ampiezza pari al doppio dell'ampiezza appena calcolata, e' riportata di seguito (Figure \ref{fig:sat2}).
-    
-\begin{figure}[h!]
-	\centering
-  	\caption{Forma d'onda in uscita con ingresso di ampiezza 1.45V.}
-  	\label{fig:sat2}
-\end{figure}
-
-\subsection{Ripetere sostituendo a R2 una resistenza di valore pari al vostro numero di matricola diviso 100}
-Sostituendo al valore della resistenza R2 il mio numero di matricola diviso 100 (R2 = 11871.8$\Omega$) i risultati ottenuti nei punti precedenti cambiano di conseguenza. La frequenza di taglio viene ricalcolata di seguito, mentre il guadagno ad altra frequenza rimane invariato in quanto indipendente da R2.
-\begin{align*}
-\omega_1 = \frac{1}{C_2R_2} = 842.33 \frac{rad}{s} = 134.06Hz
-\end{align*}
-Per quanto riguarda le nuove forme d'onda in uscita alle diverse frequenze (1Hz, 10Hz e 10kHz), i nuovi grafici sono rappresentati nelle figure Figure \ref{fig:plot1hzr2}, Figure \ref{fig:plot10hzr2} e Figure \ref{fig:plot10khzr2}. Il diagramma di Bode tra le frequenze di 1Hz e 100kHz aggiornato diventa quello rappresentato in figura Figure \ref{fig:plotboder2}.
-\begin{figure}[h!]
-	\centering
-  	\caption{Ingresso a 1Hz con valore di resistenza R2 aggiornato.}
-  	\label{fig:plot1hzr2}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-  	\caption{Ingresso a 10Hz con valore di resistenza R2 aggiornato.}
-  	\label{fig:plot10hzr2}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-  	\caption{Ingresso a 10kHz con valore di resistenza R2 aggiornato.}
-  	\label{fig:plot10khzr2}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-  	\caption{Diagramma di Bode con valore di resistenza R2 aggiornato.}
-  	\label{fig:plotboder2}
-\end{figure}
-
-\pagebreak
-Per quanto riguarda la saturazione, infine, ripetiamo la ricerca sperimentale dell'ampiezza massima a cui satura il segnale in uscita (con lo stesso listato SPICE del punto 1.4, in cui viene sostituito solamente il valore della resistenza R2). Il risultato e' riportato in figura Figure \ref{fig:plotsatr2}.
-
-\begin{figure}[h!]
-	\centering
-  	\caption{Ricerca sperimentale dell'ampiezza a cui satura l'amplificatore.}
-  	\label{fig:plotsatr2}
-\end{figure}
-
-Successivamente, ricalcoliamo analiticamente l'ampiezza del segnale in ingresso per cui l'amplificatore satura e riportiamo la forma d'onda del segnale in uscita a fronte di un ingresso di ampiezza doppia rispetto a quella trovata algebricamente.
-\begin{align*}
-\lvert V_o \rvert\ = \lvert W(j\omega) \rvert\ \cdot \lvert V_{in} \rvert\ \Rightarrow \lvert V_{in} \rvert\ = 0.737\,V
-\end{align*}
-Il grafico della forma d'onda in uscita a fronte di un segnale in ingresso di ampiezza pari al doppio dell'ampiezza appena calcolata e' riportato di seguito (Figure \ref{fig:plottaglior2}).
-\begin{figure}[h!]
-	\centering
-  	\caption{Forma d'onda del segnale in uscita con ampiezza doppia rispetto a quella calcolata.}
-  	\label{fig:plottaglior2}
-\end{figure}
-
 \newpage
 
-\subsection{Qual e' la potenza assorbita dall'alimentazione nei due casi?}
-La potenza assorbita dall'amplificatore operazionale corrisponde alla somma delle potenze erogate dai due generatori con cui e' alimentato l'amplificatore operazionale stesso. Quest'ultima puo' essere calcolata come
-\begin{align*}
-P_{out, alimentazione} = V_{ss} \cdot I_{ss} + V_{dd} \cdot I_{dd}
-\end{align*}
-Misurando questa grandezza, troviamo la potenza erogata dall'alimentazione per i due diversi valori di resistenza R2 100k$\Omega$ e 11871.8$\Omega$ (rispettivamente Figure \ref{fig:pow1} e Figure \ref{fig:pow2}).
+\section{References}
+\printbibliography[heading=none]
 
-\begin{figure}[h!]
-	\centering
-  	\caption{Resistenza R2 pari a 100k$\Omega$.}
-  	\label{fig:pow1}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-  	\caption{Resistenza R2 pari a 11\,871.8$\Omega$.}
-  	\label{fig:pow2}
-\end{figure}
-
-Possiamo notare come non sia visibile (per questi valori di resistenza) una dipendenza evidente della potenza erogata dal valore della resistenza R2. Inoltre, la potenza del grafico e' negativa, in quanto espressa secondo la convenzione degli utilizzatori (potenze minori di 0 equivalgono a potenze erogate).
 \end{document}
