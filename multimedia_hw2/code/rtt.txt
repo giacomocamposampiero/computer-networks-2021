@@ -1,0 +1,211 @@
+Round-Trip-Time Experiment
+PING 88.80.187.84 (88.80.187.84) 50(78) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39028ms
+rtt min/avg/max/mdev = 40.926/42.822/50.346/1.674 ms
+PING 88.80.187.84 (88.80.187.84) 80(108) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39064ms
+rtt min/avg/max/mdev = 41.134/46.447/117.027/15.406 ms
+PING 88.80.187.84 (88.80.187.84) 100(128) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39068ms
+rtt min/avg/max/mdev = 41.130/42.135/50.134/1.487 ms
+PING 88.80.187.84 (88.80.187.84) 130(158) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39065ms
+rtt min/avg/max/mdev = 41.516/45.509/173.491/20.513 ms
+PING 88.80.187.84 (88.80.187.84) 150(178) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39065ms
+rtt min/avg/max/mdev = 41.444/43.034/78.781/5.763 ms
+PING 88.80.187.84 (88.80.187.84) 200(228) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39065ms
+rtt min/avg/max/mdev = 41.381/42.264/45.260/0.776 ms
+PING 88.80.187.84 (88.80.187.84) 250(278) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39063ms
+rtt min/avg/max/mdev = 41.511/57.831/231.017/36.783 ms
+PING 88.80.187.84 (88.80.187.84) 300(328) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 39 received, 2,5% packet loss, time 39062ms
+rtt min/avg/max/mdev = 41.481/42.597/52.113/1.813 ms
+PING 88.80.187.84 (88.80.187.84) 350(378) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39070ms
+rtt min/avg/max/mdev = 41.628/42.352/45.560/0.651 ms
+PING 88.80.187.84 (88.80.187.84) 400(428) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39067ms
+rtt min/avg/max/mdev = 41.487/43.322/58.564/2.814 ms
+PING 88.80.187.84 (88.80.187.84) 450(478) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39065ms
+rtt min/avg/max/mdev = 41.436/46.152/103.028/11.437 ms
+PING 88.80.187.84 (88.80.187.84) 500(528) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39067ms
+rtt min/avg/max/mdev = 42.008/46.880/208.606/25.904 ms
+PING 88.80.187.84 (88.80.187.84) 550(578) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39067ms
+rtt min/avg/max/mdev = 42.093/43.144/54.226/1.947 ms
+PING 88.80.187.84 (88.80.187.84) 600(628) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39061ms
+rtt min/avg/max/mdev = 42.102/44.035/74.997/5.197 ms
+PING 88.80.187.84 (88.80.187.84) 650(678) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39061ms
+rtt min/avg/max/mdev = 42.367/43.271/47.137/0.970 ms
+PING 88.80.187.84 (88.80.187.84) 700(728) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39054ms
+rtt min/avg/max/mdev = 42.474/100.638/332.799/96.368 ms
+PING 88.80.187.84 (88.80.187.84) 750(778) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 39 received, 2,5% packet loss, time 39069ms
+rtt min/avg/max/mdev = 42.401/116.441/648.145/165.212 ms
+PING 88.80.187.84 (88.80.187.84) 800(828) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39063ms
+rtt min/avg/max/mdev = 42.572/43.108/46.299/0.655 ms
+PING 88.80.187.84 (88.80.187.84) 850(878) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 39 received, 2,5% packet loss, time 39085ms
+rtt min/avg/max/mdev = 42.431/43.500/47.512/0.973 ms
+PING 88.80.187.84 (88.80.187.84) 900(928) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39064ms
+rtt min/avg/max/mdev = 42.856/43.669/46.933/0.814 ms
+PING 88.80.187.84 (88.80.187.84) 950(978) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39065ms
+rtt min/avg/max/mdev = 42.647/48.029/226.022/28.507 ms
+PING 88.80.187.84 (88.80.187.84) 1000(1028) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39064ms
+rtt min/avg/max/mdev = 42.690/43.538/48.615/0.968 ms
+PING 88.80.187.84 (88.80.187.84) 1050(1078) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39067ms
+rtt min/avg/max/mdev = 43.043/43.661/46.858/0.598 ms
+PING 88.80.187.84 (88.80.187.84) 1100(1128) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39066ms
+rtt min/avg/max/mdev = 42.950/43.739/44.312/0.292 ms
+PING 88.80.187.84 (88.80.187.84) 1150(1178) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39068ms
+rtt min/avg/max/mdev = 43.227/45.326/79.204/6.232 ms
+PING 88.80.187.84 (88.80.187.84) 1200(1228) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39065ms
+rtt min/avg/max/mdev = 43.349/47.147/159.011/17.987 ms
+PING 88.80.187.84 (88.80.187.84) 1250(1278) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39062ms
+rtt min/avg/max/mdev = 43.501/45.030/76.673/5.114 ms
+PING 88.80.187.84 (88.80.187.84) 1300(1328) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39062ms
+rtt min/avg/max/mdev = 43.634/44.119/46.691/0.503 ms
+PING 88.80.187.84 (88.80.187.84) 1350(1378) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39062ms
+rtt min/avg/max/mdev = 43.522/44.146/47.384/0.588 ms
+PING 88.80.187.84 (88.80.187.84) 1400(1428) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39063ms
+rtt min/avg/max/mdev = 43.591/48.411/209.276/25.772 ms
+PING 88.80.187.84 (88.80.187.84) 1450(1478) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39039ms
+rtt min/avg/max/mdev = 43.801/44.571/46.590/0.630 ms
+PING 88.80.187.84 (88.80.187.84) 1500(1528) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39063ms
+rtt min/avg/max/mdev = 44.006/44.604/46.864/0.466 ms
+PING 88.80.187.84 (88.80.187.84) 1550(1578) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39067ms
+rtt min/avg/max/mdev = 44.170/45.258/52.900/1.840 ms
+PING 88.80.187.84 (88.80.187.84) 1600(1628) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39066ms
+rtt min/avg/max/mdev = 43.895/45.115/52.820/1.804 ms
+PING 88.80.187.84 (88.80.187.84) 1650(1678) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39064ms
+rtt min/avg/max/mdev = 44.376/49.282/171.798/19.833 ms
+PING 88.80.187.84 (88.80.187.84) 1700(1728) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39063ms
+rtt min/avg/max/mdev = 44.530/45.862/53.143/2.386 ms
+PING 88.80.187.84 (88.80.187.84) 1750(1778) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39063ms
+rtt min/avg/max/mdev = 44.624/47.020/56.947/3.555 ms
+PING 88.80.187.84 (88.80.187.84) 1800(1828) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 39 received, 2,5% packet loss, time 39090ms
+rtt min/avg/max/mdev = 44.320/49.275/102.520/10.712 ms
+PING 88.80.187.84 (88.80.187.84) 1850(1878) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39066ms
+rtt min/avg/max/mdev = 44.497/47.781/73.504/5.697 ms
+PING 88.80.187.84 (88.80.187.84) 1900(1928) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39032ms
+rtt min/avg/max/mdev = 44.545/50.180/196.982/23.640 ms
+PING 88.80.187.84 (88.80.187.84) 1950(1978) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 39 received, 2,5% packet loss, time 39082ms
+rtt min/avg/max/mdev = 44.549/45.589/48.648/0.922 ms
+PING 88.80.187.84 (88.80.187.84) 2000(2028) bytes of data.
+
+--- 88.80.187.84 ping statistics ---
+40 packets transmitted, 40 received, 0% packet loss, time 39067ms
+rtt min/avg/max/mdev = 45.114/45.983/55.329/1.669 ms
