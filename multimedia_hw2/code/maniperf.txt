@@ -1,0 +1,395 @@
+IPERF(1)                                                        User Manuals                                                        IPERF(1)
+
+NAME
+       iperf - perform network throughput tests
+
+SYNOPSIS
+       iperf -s [options]
+
+       iperf -c server [options]
+
+       iperf -u -s [options]
+
+       iperf -u -c server [options]
+
+DESCRIPTION
+       iperf  is a tool for performing network throughput measurements.  It can test either TCP or UDP throughput.  To perform an iperf test
+       the user must establish both a server (to discard traffic) and a client (to generate traffic).
+
+GENERAL OPTIONS
+       -b, --bandwidth
+              set the target bandwidth and optional standard devation per <mean>,[<stdev>] (See NOTES for suffixes)
+
+       -e, --enhanced
+              Display enhanced output in reports otherwise use legacy report (ver 2.0.5) formatting (see notes)
+
+       -f, --format [abkmgBKMG]
+              format to report: adaptive, bits, Bytes, Kbits, Mbits, Gbits, KBytes, MBytes, GBytes (see NOTES for more)
+
+       -h, --help
+              print a help synopsis
+
+       -i, --interval n
+              pause n seconds between periodic bandwidth reports
+
+       -l, --len n[kmKM]
+              set read/write buffer size (TCP) or length (UDP) to n (TCP default 128K, UDP default 1470)
+
+           --l2checks
+              perform layer 2 length checks on received UDP packets (requires systems that support packet sockets, e.g. Linux)
+
+       -m, --print_mss
+              print TCP maximum segment size (MTU - TCP/IP header)
+
+       -o, --output filename
+              output the report or error message to this specified file
+
+       -p, --port n
+              set server port to listen on/connect to to n (default 5001)
+
+       -u, --udp
+              use UDP rather than TCP
+
+       -w, --window n[kmKM]
+              TCP window size (socket buffer size)
+
+       -z, --realtime
+              Request real-time scheduler, if supported.
+
+       -B, --bind host
+              bind to host, ip address or multicast address and optional port (see notes)
+
+       -C, --compatibility
+              for use with older versions does not sent extra msgs
+
+       -M, --mss n
+              set TCP maximum segment size (MTU - 40 bytes)
+
+       -N, --nodelay
+              set TCP no delay, disabling Nagle's Algorithm
+
+       -v, --version
+              print version information and quit
+
+       -x, --reportexclude [CDMSV]
+              exclude C(connection) D(data) M(multicast) S(settings) V(server) reports
+
+       -y, --reportstyle C|c
+              if set to C or c report results as CSV (comma separated values)
+
+SERVER SPECIFIC OPTIONS
+       -b, --bandwidth n[kmgKMG]
+              set target read rate to n bits/sec. TCP only for the server.
+
+       -s, --server
+              run in server mode
+
+           --udp-histogram[=binwidth[u],bincount,[lowerci],[upperci]]
+              output UDP latency histograms, bin width (default 1 millisecond, append u for microseconds,) bincount is total  bins  (default
+              1000), ci is confidence interval between 0-100% (default lower 5%, upper 95%)
+
+       -B, --bind ip | ip%device
+              bind src ip addr and optional src device for receiving
+
+       -D, --daemon
+              run  the  server as a daemon.  On Windows this will run the specified command-line under the IPerfService, installing the ser‐
+              vice if necessary.  Note the service is not configured to auto-start or restart - if you need a self-starting service you will
+              need to create an init script or use Windows "sc" commands.
+
+       -H, --ssm-host host
+              Set the source host (ip addr) per SSM multicast, i.e. the S of the S,G
+
+       -R, --remove
+              remove the IPerfService (Windows only).
+
+       -U, --single_udp
+              run in single threaded UDP mode
+
+       -V, --ipv6_domain
+              Enable IPv6 reception by setting the domain and socket to AF_INET6 (Can receive on both IPv4 and IPv6)
+
+CLIENT SPECIFIC OPTIONS
+       -b, --bandwidth n[kmgKMG] | npps
+              set target bandwidth to n bits/sec (default 1 Mbit/sec) or n packets per sec.  This may be used with TCP or UDP.  For variable
+              loads use format mean,standard deviation
+
+       -c, --client host
+              run in client mode, connecting to host
+
+       -d, --dualtest
+              Do a bidirectional test simultaneously.
+
+           --fq-rate n[kmgKMG]
+              Set a rate to be used with fair-queueing based socket-level pacing, in bytes or bits per second. Only available  on  platforms
+              supporting  the SO_MAX_PACING_RATE socket option. (Note: Here the suffixes indicate bytes/sec or bits/sec per use of uppercase
+              or lowercase, respectively)
+
+           --incr-dstip
+              increment the destination ip address when using the parallel (-P) option
+
+           --ipg n
+              set the interpacket gap to n (units of milliseconds) for packets within an isochronous frame (burst), requires --isochronous
+
+           --isochronous[=fps:mean,stdev]
+              send isochronous traffic with frequency frames per second and load defined by mean and standard deviation using a  log  normal
+              distribution,  defaults  to  60:20m,0.  (Note: Here the suffixes indicate bytes/sec or bits/sec per use of uppercase or lower‐
+              case, respectively)
+
+       -n, --num n[kmKM]
+              number of bytes to transmit (instead of -t)
+
+       -r, --tradeoff
+              Do a bidirectional test individually - client-to-server, followed by a reversed test, server-to-client
+
+       -t, --time n
+              time in seconds to listen for new traffic connections, receive traffic or transmit traffic  (Defaults:  transmit  is  10  secs
+              while listen and receive are indefinite)
+
+           --trip-time
+              request  the  server to report the total trip time, i.e from the client's 3WHS done to client's (fin, fin-ack or socket close)
+              (requires synchronized clocks)
+
+           --txstart-time n.n
+              set the txstart-time to n.n using unix or epoch time format (supports nanonsecond resolution, e.g 1536014418.839992457)
+
+       -B, --bind ip | ip:port | ipv6 -V | [ipv6]:port -V
+              bind src ip addr and optional port as the source of traffic (see notes)
+
+       -F, --fileinput name
+              input the data to be transmitted from a file
+
+       -I, --stdin
+              input the data to be transmitted from stdin
+
+       -L, --listenport n
+              port to receive bidirectional tests back on
+
+       -P, --parallel n
+              number of parallel client threads to run
+
+       -R, --reverse
+              reverse the traffic flow after header exchange, useful for testing through firewalls
+
+       -S, --tos
+              set the socket's IP_TOS (byte) field
+
+       -T, --ttl n
+              time-to-live, for multicast (default 1) -V, --ipv6_domain Set the domain to IPv6 (send packets over IPv6)
+
+       -X, --peerdetect
+              run server version detection prior to traffic.
+
+       -Z, --linux-congestion algo
+              set TCP congestion control algorithm (Linux only)
+
+EXAMPLES
+       TCP tests (client)
+
+       iperf -c <host> -e -i 1
+       ------------------------------------------------------------
+       Client connecting to <host>, TCP port 5001 with pid 5149
+       Write buffer size:  128 KByte
+       TCP window size:  340 KByte (default)
+       ------------------------------------------------------------
+       [  3] local 45.56.85.133 port 49960 connected with 45.33.58.123 port 5001 (ct=3.23 ms)
+       [ ID] Interval        Transfer    Bandwidth       Write/Err  Rtry     Cwnd/RTT        NetPwr
+       [  3] 0.00-1.00 sec   126 MBytes  1.05 Gbits/sec  1006/0          0       56K/626 us  210636.47
+       [  3] 1.00-2.00 sec   138 MBytes  1.15 Gbits/sec  1100/0        299      483K/3884 us  37121.32
+       [  3] 2.00-3.00 sec   137 MBytes  1.15 Gbits/sec  1093/0         24      657K/5087 us  28162.31
+       [  3] 3.00-4.00 sec   126 MBytes  1.06 Gbits/sec  1010/0        284      294K/2528 us  52366.58
+       [  3] 4.00-5.00 sec   117 MBytes   980 Mbits/sec  935/0        373      487K/2025 us  60519.66
+       [  3] 5.00-6.00 sec   144 MBytes  1.20 Gbits/sec  1149/0          2      644K/3570 us  42185.36
+       [  3] 6.00-7.00 sec   126 MBytes  1.06 Gbits/sec  1011/0        112      582K/5281 us  25092.56
+       [  3] 7.00-8.00 sec   110 MBytes   922 Mbits/sec  879/0         56      279K/1957 us  58871.89
+       [  3] 8.00-9.00 sec   127 MBytes  1.06 Gbits/sec  1014/0         46      483K/3372 us  39414.89
+       [  3] 9.00-10.00 sec   132 MBytes  1.11 Gbits/sec  1054/0          0      654K/3380 us  40872.75
+       [  3] 0.00-10.00 sec  1.25 GBytes  1.07 Gbits/sec  10251/0       1196       -1K/3170 us  42382.03
+
+       where (per -e,)
+              ct= TCP connect time (or three way handshake time 3WHS)
+              Write/Err Total number of successful socket writes. Total number of non-fatal socket write errors
+              Rtry Total number of TCP retries
+              Cwnd/RTT (*nix only) TCP congestion window and round trip time (sampled)
+              NetPwr (*nix only) Network power defined as (throughput / RTT)
+
+       TCP tests (server)
+
+       iperf -s -e -i 1 -l 8K
+       ------------------------------------------------------------
+       Server listening on TCP port 5001 with pid 13430
+       Read buffer size: 8.00 KByte
+       TCP window size: 85.3 KByte (default)
+       ------------------------------------------------------------
+       [  4] local 45.33.58.123 port 5001 connected with 45.56.85.133 port 49960
+       [ ID] Interval        Transfer    Bandwidth       Reads   Dist(bin=1.0K)
+       [  4] 0.00-1.00 sec   124 MBytes  1.04 Gbits/sec  22249    798:2637:2061:767:2165:1563:589:11669
+       [  4] 1.00-2.00 sec   136 MBytes  1.14 Gbits/sec  24780    946:3227:2227:790:2427:1888:641:12634
+       [  4] 2.00-3.00 sec   137 MBytes  1.15 Gbits/sec  24484    1047:2686:2218:810:2195:1819:728:12981
+       [  4] 3.00-4.00 sec   126 MBytes  1.06 Gbits/sec  20812    863:1353:1546:614:1712:1298:547:12879
+       [  4] 4.00-5.00 sec   117 MBytes   984 Mbits/sec  20266    769:1886:1828:589:1866:1350:476:11502
+       [  4] 5.00-6.00 sec   143 MBytes  1.20 Gbits/sec  24603    1066:1925:2139:822:2237:1827:744:13843
+       [  4] 6.00-7.00 sec   126 MBytes  1.06 Gbits/sec  22635    834:2464:2249:724:2269:1646:608:11841
+       [  4] 7.00-8.00 sec   110 MBytes   921 Mbits/sec  21107    842:2437:2747:592:2871:1903:496:9219
+       [  4] 8.00-9.00 sec   126 MBytes  1.06 Gbits/sec  22804    1038:1784:2639:656:2738:1927:573:11449
+       [  4] 9.00-10.00 sec   133 MBytes  1.11 Gbits/sec  23091    1088:1654:2105:710:2333:1928:723:12550
+       [  4] 0.00-10.02 sec  1.25 GBytes  1.07 Gbits/sec  227306    9316:22088:21792:7096:22893:17193:6138:120790
+
+       where (per -e,)
+              Reads Total number of socket reads
+              Dist(bin=size) Eight bin histogram of the socket reads returned byte count.  Bin width is set per size.  Bins are separated by
+              a colon.  In the example, the bins are 0-1K, 1K-2K, .., 7K-8K.
+
+       UDP tests (client)
+
+       iperf -c <host> -e -i 1 -u -b 10m
+       ------------------------------------------------------------
+       Client connecting to <host>, UDP port 5001 with pid 5169
+       Sending 1470 byte datagrams, IPG target: 1176.00 us (kalman adjust)
+       UDP buffer size:  208 KByte (default)
+       ------------------------------------------------------------
+       [  3] local 45.56.85.133 port 32943 connected with 45.33.58.123 port 5001
+       [ ID] Interval        Transfer     Bandwidth      Write/Err  PPS
+       [  3] 0.00-1.00 sec  1.19 MBytes  10.0 Mbits/sec  852/0      851 pps
+       [  3] 1.00-2.00 sec  1.19 MBytes  10.0 Mbits/sec  850/0      850 pps
+       [  3] 2.00-3.00 sec  1.19 MBytes  10.0 Mbits/sec  850/0      850 pps
+       [  3] 3.00-4.00 sec  1.19 MBytes  10.0 Mbits/sec  851/0      850 pps
+       [  3] 4.00-5.00 sec  1.19 MBytes  10.0 Mbits/sec  850/0      850 pps
+       [  3] 5.00-6.00 sec  1.19 MBytes  10.0 Mbits/sec  850/0      850 pps
+       [  3] 6.00-7.00 sec  1.19 MBytes  10.0 Mbits/sec  851/0      850 pps
+       [  3] 7.00-8.00 sec  1.19 MBytes  10.0 Mbits/sec  850/0      850 pps
+       [  3] 8.00-9.00 sec  1.19 MBytes  10.0 Mbits/sec  851/0      850 pps
+       [  3] 0.00-10.00 sec  11.9 MBytes  10.0 Mbits/sec  8504/0      850 pps
+       [  3] Sent 8504 datagrams
+       [  3] Server Report:
+       [  3] 0.00-10.00 sec  11.9 MBytes  10.0 Mbits/sec   0.047 ms    0/ 8504 (0%)  0.537/ 0.392/23.657/ 0.497 ms  850 pps  2329.37
+
+       where (per -e,)
+              Write/Err Total number of successful socket writes. Total number of non-fatal socket write errors
+              PPS Transmit packet rate in packets per second
+
+       UDP tests (server)
+
+       iperf -s -e -i 1 -u
+       ------------------------------------------------------------
+       Server listening on UDP port 5001 with pid 13496
+       Receiving 1470 byte datagrams
+       UDP buffer size:  208 KByte (default)
+       ------------------------------------------------------------  [   3]  local  45.33.58.123  port 5001 connected with 45.56.85.133 port
+       32943
+       [ ID] Interval        Transfer     Bandwidth        Jitter   Lost/Total  Latency avg/min/max/stdev PPS  NetPwr
+       [  3] 0.00-1.00 sec  1.19 MBytes  10.0 Mbits/sec   0.057 ms    0/  851 (0%)  0.475/ 0.408/ 1.898/ 0.090 ms  851 pps  2633.56
+       [  3] 1.00-2.00 sec  1.19 MBytes  10.0 Mbits/sec   0.039 ms    0/  851 (0%)  0.669/ 0.405/16.256/ 1.375 ms  850 pps  1869.32
+       [  3] 2.00-3.00 sec  1.19 MBytes  10.0 Mbits/sec   0.038 ms    0/  850 (0%)  0.795/ 0.395/23.657/ 2.138 ms  850 pps  1572.05
+       [  3] 3.00-4.00 sec  1.19 MBytes  10.0 Mbits/sec   0.045 ms    0/  850 (0%)  0.475/ 0.403/ 3.477/ 0.148 ms  850 pps  2628.58
+       [  3] 4.00-5.00 sec  1.19 MBytes  10.0 Mbits/sec   0.043 ms    0/  851 (0%)  0.463/ 0.400/ 1.458/ 0.068 ms  850 pps  2699.88
+       [  3] 5.00-6.00 sec  1.19 MBytes  10.0 Mbits/sec   0.032 ms    0/  850 (0%)  0.486/ 0.404/ 2.658/ 0.154 ms  850 pps  2572.21
+       [  3] 6.00-7.00 sec  1.19 MBytes  10.0 Mbits/sec   0.055 ms    0/  850 (0%)  0.469/ 0.404/ 2.768/ 0.108 ms  850 pps  2664.82
+       [  3] 7.00-8.00 sec  1.19 MBytes  10.0 Mbits/sec   0.039 ms    0/  851 (0%)  0.571/ 0.400/12.452/ 0.855 ms  850 pps  2192.68
+       [  3] 8.00-9.00 sec  1.19 MBytes  10.0 Mbits/sec   0.083 ms    0/  850 (0%)  0.475/ 0.392/ 3.702/ 0.196 ms  850 pps  2628.29
+       [  3] 9.00-10.00 sec  1.19 MBytes  10.0 Mbits/sec   0.047 ms    0/  850 (0%)  0.493/ 0.396/ 6.010/ 0.343 ms  850 pps  2534.89
+       [  3] 0.00-10.00 sec  11.9 MBytes  10.0 Mbits/sec   0.047 ms    0/ 8504 (0%)  0.537/ 0.392/23.657/ 0.867 ms  850 pps  2329.37
+
+       where (per -e,)
+              Latency End to end latency in mean/minimum/maximum/standard deviation format (Note: requires the client's and server's  system
+              clocks  to  be synchronized to a common reference, e.g. using precision time protocol PTP.  A GPS disciplined OCXO is a recom‐
+              mended reference.)
+              PPS Received packet rate in packets per second
+              NetPwr Network power defined as (throughput / latency)
+
+       Isochronous UDP tests (client)
+
+       iperf -c 192.168.100.33 -u -e -i 1 --isochronous=60:100m,10m --realtime
+       ------------------------------------------------------------
+       Client connecting to 192.168.100.33, UDP port 5001 with pid 14971
+       UDP isochronous: 60 frames/sec mean= 100 Mbit/s, stddev=10.0 Mbit/s, Period/IPG=16.67/0.005 ms
+       UDP buffer size:  208 KByte (default)
+       ------------------------------------------------------------
+       [  3] local 192.168.100.76 port 42928 connected with 192.168.100.33 port 5001
+       [ ID] Interval        Transfer     Bandwidth      Write/Err  PPS  frames:tx/missed/slips
+       [  3] 0.00-1.00 sec  12.0 MBytes   101 Mbits/sec  8615/0     8493 pps   62/0/0
+       [  3] 1.00-2.00 sec  12.0 MBytes   100 Mbits/sec  8556/0     8557 pps   60/0/0
+       [  3] 2.00-3.00 sec  12.0 MBytes   101 Mbits/sec  8586/0     8586 pps   60/0/0
+       [  3] 3.00-4.00 sec  12.1 MBytes   102 Mbits/sec  8687/0     8687 pps   60/0/0
+       [  3] 4.00-5.00 sec  11.8 MBytes  99.2 Mbits/sec  8468/0     8468 pps   60/0/0
+       [  3] 5.00-6.00 sec  11.9 MBytes  99.8 Mbits/sec  8519/0     8520 pps   60/0/0
+       [  3] 6.00-7.00 sec  12.1 MBytes   102 Mbits/sec  8694/0     8694 pps   60/0/0
+       [  3] 7.00-8.00 sec  12.1 MBytes   102 Mbits/sec  8692/0     8692 pps   60/0/0
+       [  3] 8.00-9.00 sec  11.9 MBytes   100 Mbits/sec  8537/0     8537 pps   60/0/0
+       [  3] 9.00-10.00 sec  11.8 MBytes  99.0 Mbits/sec  8450/0     8450 pps   60/0/0
+       [  3] 0.00-10.01 sec   120 MBytes   100 Mbits/sec  85867/0     8574 pps  602/0/0
+       [  3] Sent 85867 datagrams
+       [  3] Server Report:
+       [  3] 0.00-9.98 sec   120 MBytes   101 Mbits/sec   0.009 ms  196/85867 (0.23%)  0.665/ 0.083/ 1.318/ 0.174 ms 8605 pps  18903.85
+
+       where (per -e,)
+              frames:tx/missed/slips Total number of isochronous frames or bursts. Total number of frame ids  not  sent.   Total  number  of
+              frame slips
+
+       Isochronous UDP tests (server)
+
+       iperf -s -e -u --udp-histogram=100u,2000 --realtime
+       ------------------------------------------------------------
+       Server listening on UDP port 5001 with pid 5175
+       Receiving 1470 byte datagrams
+       UDP buffer size:  208 KByte (default)
+       ------------------------------------------------------------
+       [  3] local 192.168.100.33 port 5001 connected with 192.168.100.76 port 42928 isoch (peer 2.0.13-alpha)
+       [ ID] Interval        Transfer     Bandwidth        Jitter   Lost/Total  Latency avg/min/max/stdev PPS  NetPwr  Frames/Lost
+       [   3]  0.00-9.98  sec    120  MBytes   101 Mbits/sec   0.010 ms  196/85867 (0.23%)  0.665/ 0.083/ 1.318/ 0.284 ms 8585 pps  18903.85
+       601/1
+       [               3]              0.00-9.98              sec              T8(f)-PDF:               bin(w=100us):cnt(85671)=1:2,2:844,3:
+       10034,4:8493,5:8967,6:8733,7:8823,8:9023,9:8901,10:8816,11:7730,12:4563,13:741,14:1 (5.00/95.00%=3/12,Outliers=0,obl/obu=0/0)
+       [    3]   0.00-9.98   sec  F8(f)-PDF:  bin(w=100us):cnt(598)=  15:2,16:1,17:27,18:68,19:125,20:136,21:103,22:83,23:22,24:23,25:5,26:3
+       (5.00/95.00%=17/24,Outliers=0,obl/obu=0/0)
+
+       where, Frames/lost Total number of frames (or bursts) received.  Total number of bursts lost or errored
+              T8-PDF(f) Latency histogram for packets
+              F8-PDF(f) Latency histogram for frames
+
+ENVIRONMENT
+       Note:  The environment variable option settings haven't been maintained well.  See the source code if these are of interest.
+
+NOTES
+       Some numeric options support format characters per '<value>c' (e.g. 10M) where the c format characters  are  k,m,g,K,M,G.   Lowercase
+       format characters are 10^3 based and uppercase are 2^n based, e.g. 1k = 1000, 1K = 1024, 1m = 1,000,000 and 1M = 1,048,576
+
+       The  -b  option  supports variable offered loads through the <mean>,<standard deviation> format, e.g. -b 100m,10m on the client.  The
+       distribution used is log normal.  Similar for the isochronous option.
+
+       The -e or --enhanced latency output on the UDP servers assumes the clients' and servers' system  clocks  are  synchronized.   Network
+       Time  Protocol  (NTP) or Precision Time Protocol (PTP) are commonly used for this.  The reference clock(s) or oscillator's error will
+       also affect the accuracy of UDP latency measurements.
+
+       The -B option affects the bind() system call.  This is typically used to bind to a particular IP address. Only  packets  destined  to
+       that  IP  address will be received while any transmitted packets will carry that IP address as their source. The bind() does not con‐
+       trol anything about the routing of transmitted packets. So, for example, if the IP address of eth0 is used for -B and the routing ta‐
+       ble  for  the destination IP address (per -c) resolves the output interface to be eth1, then the host will send the packet out device
+       eth1 with the source IP address of eth0.  To affect the physical output interface (e.g. dual homed systems) the  host's  routing  ta‐
+       ble(s) need to be configured, e.g. configure policy routing per each -B source address.
+
+       The TCP connect time (or three way handshake) can be seen on the iperf client when the -e (--enhancedreports) option is set. Look for
+       the ct=<value> in the connected message, e.g.in '[ 3] local 192.168.1.4 port 48736 connected with 192.168.1.1 port 5001 (ct=1.84 ms)'
+       shows the 3WHS took 1.84 milliseconds.
+
+       The  network  power (NetPwr) metric is experimental.  It's a convenience function defined as throughput/delay.  For TCP, the delay is
+       the sampled RTT times.  For UDP the delay is the end/end latency.  Don't confuse this with the physics definition of power (delta en‐
+       ergy/delta time) but more of a measure of a desirable property divided by an undesirable property.  Also note, one must use -i inter‐
+       val with TCP to get this as that's what sets the RTT sampling rate.  The metric is scaled to assist with human  readability.   (Note:
+       if this metric goes beyond the experimental state we'll consider a supporting and RTT sampling rate independent of the -i interval.)
+
+DIAGNOSTICS
+       This section needs to be filled in.
+
+BUGS
+       See https://sourceforge.net/p/iperf2/tickets/
+
+AUTHORS
+       Iperf2, based from iperf (originally written by Mark Gates and Alex Warshavsky), has a goal of maintenance with some feature enhance‐
+       ment.  Other contributions from Ajay Tirumala, Jim Ferguson, Jon Dugan <jdugan at x1024 dot net>, Feng Qin,  Kevin  Gibbs,  John  Es‐
+       tabrook <jestabro at ncsa.uiuc.edu>, Andrew Gallatin <gallatin at gmail.com>, Stephen Hemminger <shemminger at linux-foundation.org>,
+       Tim Auckland <tim.auckland at gmail.com>, Robert J. McMahon <rjmcmahon at rjmcmahon.com>
+
+SEE ALSO
+       http://sourceforge.net/projects/iperf2/
+
+NLANR/DAST                                                       APRIL 2008                                                         IPERF(1)
