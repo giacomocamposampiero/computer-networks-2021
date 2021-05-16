@@ -175,7 +175,6 @@ Il software \texttt{iperf} offre numerose opzioni da linea di comando. Una lista
 	\item \texttt{-s, --server}: run in server mode
 	\item \texttt{-c, --client host}: run in client mode, connecting to host
 	\item \texttt{-b, --bandwidth}: set the target bandwidth and optional standard devation per <mean>,[<stdev>]
-	\item \texttt{-i, --interval n}: pause n seconds between periodic bandwidth reports
 	\item \texttt{-p, --port n}: set server port to listen on/connect to to n (default 5001)
 	\item \texttt{-N, --nodelay}: set TCP no delay, disabling Nagle's Algorithm
 	\item \texttt{-y, --reportstyle C|c}: if set to C or c report results as CSV (comma separated values)
@@ -188,30 +187,46 @@ Anche in questo caso, al fine di raccogliere un numero sufficiente di misure, è
 \begin{verbatim}
 echo "date,c_IP,c_port,s_ip,s_port,trans_ID,time,trans,bitrate" > iperf.csv
 i=0
-while [ $i -le 439 ]
+while [ $i -le 180 ]
 do
-  iperf -c 88.80.187.84 -p 20180 -b 500M -i 60 -y c >> iperf.csv
+  iperf -c 88.80.187.84 -p 20180 -b 100M -N -y c >> iperf.csv
   i=$(( $i + 1 ))
+  sleep 2m
 done
 \end{verbatim}
 \end{quote}
 \normalsize
 A differenza di \texttt{ping}, gli output di questo programma sono stati salvati (grazie all'opzione \texttt{-y c}) in formato csv, in modo tale da facilitarne una successiva elaborazione automatica. Il programma è stato avviato in modalità client (\texttt{-c}) sulla macchina da cui sono stati eseguiti i test ed in modalità server (tramite il comando \texttt{iperf -s -p 20180}) sul nodo di destinazione. Al lato client sono stati specificati indirizzo IP e porta del server destinazione (88.80.187.84 : 20180), mentre al lato server è stata specificato solamente il numero di porta su cui mettersi in ascolto.\\\\
-È stata inoltre fissata lato client la "bandwidth" massima della connessione ad un limite molto superiore a quello effettivo (\texttt{-b 500M}, ossia 500 Mb), per evitare che il programma utilizzasse il valore di default corrispondente a 1.05 Mbps, falsando di conseguenza i risultati. Tramite l'opzione \texttt{-i 60} è stata inoltre definita una "pausa" tra le misurazioni successive del bitrate, in modo tale da aumentare il lasso di tempo di analisi e ridurre di conseguenza il peso di possibili congestioni temporanee della rete. Infine, è stata utilizzata l'opzione \texttt{-N} al fine di disattivare il buffering dei pacchetti di dimensione minore previsto dall'algoritmo di Nagle, che ha effetti sensibili sulla misura del bitrate.
+È stata inoltre fissata lato client la "bandwidth" massima della connessione ad un limite molto superiore a quello effettivo (\texttt{-b 500M}, ossia 500 Mb), per evitare che il programma utilizzasse il valore di default corrispondente a 1.05 Mbps, falsando di conseguenza i risultati. Tramite il comando \texttt{sleep 2m} è stata inoltre definita una "pausa" tra le misurazioni successive del bitrate, in modo tale da aumentare il lasso di tempo di analisi e ridurre di conseguenza il peso di possibili congestioni temporanee della rete. Infine, è stata utilizzata l'opzione \texttt{-N} al fine di disattivare il buffering dei pacchetti di dimensione minore previsto dall'algoritmo di Nagle, che ha effetti sensibili sulla misura del bitrate.
 \newpage
 
 \noindent
-Una rappresentazione grafica dei risultati ottenuti è riportata in Figura \ref{fig:iperf}.
+Una rappresentazione grafica dei risultati ottenuti è riportata in Figura \ref{fig:iperf}. Il valore medio del bitrate misurato dal programma \texttt{iperf} risulta quindi essere pari a \textbf{6.44 Mbps}.\\
 
-\begin{figure}[h!]
+\noindent
+È stato tuttavia osservato nel corso degli esperimenti come questo valore sia in realtà altamente dipendente da alcuni parametri del programma, come ad esempio l'intervallo di tempo impostato per effettuare la misurazione. All'aumentare di questo parametro, infatti, si è osservata una decrescita esponenziale del bitrate, che converge per tempi lunghi ai valori di media trovati precedentemente (Figura \ref{fig:iperftime}). Questo risultato può essere spiegato se considerata l'equazione con la quale il programma calcola il bitrate, ossia
+\begin{align}
+\label{eq:br}
+bitrate = \frac{bytes \ read}{time}
+\end{align}
+Andando a ridurre il tempo di misurazione si riduce il denominatore ad un rate evidentemente minore di quanto non si riduca il numeratore nello stesso intervallo. Inoltre, anche il protocollo utilizzato nella misurazione influisce notevolmente sui valori di bitrate ottenuti. Ripetendo infatti lo stesso esperimento a parità di condizioni i risultati sono stati notevolmente più grandi ($\approx 50\,Mbps$). Questo comportamento potrebbe essere spiegato invece dall'assenza di controlli sui pacchetti UDP e dal comportamento \textit{flood} che assume il programma in questa modalità (cerca di mandare più pacchetti UDP possibili nella rete nella finestra di misurazione), che a parità di denominatore determina una crescita importante del numeratore nell'Equazione (\ref{eq:br}).
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
      \centering
-         \includegraphics[scale=0.4]{img/iperf.png}
-         \caption{Misure del bitrate della connessione.}
+         \includegraphics[width=1\linewidth]{img/iperf.png}
+         \caption{Misure di bitrate della connessione.}
          \label{fig:iperf}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+      \centering
+         \includegraphics[width=1\linewidth]{img/iperftime.png}
+         \caption{Bitrate in funzione del tempo.}
+         \label{fig:iperftime}
+   \end{minipage}
 \end{figure}
 
-
 \section{Conclusioni}
+Le stime del bitrate ottenute mediante i due comandi \texttt{ping} e \texttt{iperf} sono tra loro molto simili e denotano una differenza reciproca inferiore al $5\%$, legata verosimilmente alle approssimazioni fatte nel calcolo della pendenza per i valori di bitrate del \texttt{ping} e agli errori casuali legati alla forte variabilità dello stato della rete. In conclusione, quindi, entrambi gli strumenti utilizzati hanno ottenuto risultati tra loro coerenti.
 
 \section{Bibliografia}
 \printbibliography[heading=none]
