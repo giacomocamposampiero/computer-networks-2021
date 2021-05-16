@@ -140,7 +140,7 @@ Nel caso invece del Round-Trip Time massimo gli effetti legati ai ritardi di acc
 \end{figure}
 
 \subsection{Bitrate}
-Il bitrate della connessione corrisponde al minimo tra tutti i bitrate dei nodi appartenenti al percorso di andata e ritorno dei pacchetti. Come è stato sperimentalmente verificato, i valori di RTT misurati con il comando \texttt{ping} normalmente variano, anche considerevolmente, per pacchetti diversi. Assumendo che il percorso tra sorgente e destinazione rimanga sempre lo stesso in prove consecutive (a parità di dimensione del pacchetto), la causa principale della variazione di RTT è da ricercarsi nel ritardo di accodamento. Per ridurre al minimo l'effetto di questa componente del ritardo consideriamo per ogni misurazione il RTT minimo, per cui la componente di ritardo associata all'accodamento è ritenuta trascurabile. Lavoriamo inoltre nell'ipotesi in cui il tempo di elaborazione dei vari nodi intermedi sia generalmente trascurabile. In queste condizioni, il bitrate della connessione può essere ricavato dal coefficiente angolare $\alpha$ dell'Equazione (\ref{eq:rtt}), che equivale a
+Il bitrate della connessione può essere calcolato, grazie all'Equazione (\ref{eq:rtt1}), dai valori del RTT. Come è stato sperimentalmente verificato, i valori di RTT misurati con il comando \texttt{ping} normalmente variano, anche considerevolmente, per pacchetti diversi. Assumendo che il percorso tra sorgente e destinazione rimanga sempre lo stesso in prove consecutive (a parità di dimensione del pacchetto), la causa principale della variazione di RTT è da ricercarsi nel ritardo di accodamento. Per ridurre al minimo l'effetto di questa componente del ritardo consideriamo per ogni misurazione il RTT minimo, per cui questa componente è considerata nulla. Lavoriamo inoltre nell'ipotesi in cui il tempo di elaborazione dei vari nodi intermedi sia generalmente trascurabile. In queste condizioni, il bitrate della connessione può essere ricavato dal coefficiente angolare $\alpha$ dell'Equazione (\ref{eq:rtt}), che equivale a
 \begin{align}
 \alpha = 2 \cdot \sum_{i=1}^{n}  \frac{1}{R_i} \approx \frac{2}{min_i R_i}
 \label{eq:ris}
@@ -152,10 +152,10 @@ RTT(k) = \alpha L(x) + \tau = 2.84 \cdot 10^{-7}  L(x) + 3.65 \cdot 10^{-2}
 dove:
 \begin{itemize}
 \item $\alpha$ è il coefficiente angolare estrapolato
-\item $\tau$ è la somma dei tempi di propagazione di tutti i nodi (contati due volte, andata e ritorno)
+\item $\tau$ è l'intercetta estrapolata, che corrisponde alla somma dei tempi di propagazione di tutti i nodi (contati due volte, andata e ritorno)
 \end{itemize}
 \noindent
-Il bitrate della connessione può quindi essere calcolato (sfruttando l'Equazione (\ref{eq:ris})) e risulta essere pari a 7 041 265 bps, ovvero \textbf{6.71 Mbps}. Al fine di verifica, si è provato ad eseguire la regressione lineare anche sui dati relativi al RTT medio. In questo caso, la retta estrapolata utilizzando l'intero set di dati si è dimostrata essere evidentemente incompatibile con quella estratta precedentemente. Tuttavia, eliminando dai valori considerati tutte le misurazioni con una deviazione standard troppo alta ($>10\,ms$) e le prime 20 misurazioni effettuate (di cui è già stato discusso il comportamento anomalo nella sezione \ref{par:x}), si è riusciti ad estrapolare una retta con una diversa intercetta (la cui differenza con del min potrebbe essere interpretata come \textit{ritardo di buffering medio}) ma stesso coefficiente angolare e, di conseguenza, stesso bitrate. Entrambe le rette estrapolate sono riportate in Figura \ref{fig:regr}.
+Il bitrate della connessione può quindi essere calcolato (sfruttando l'Equazione (\ref{eq:ris})) e risulta essere pari a 7 041 265 bps, ovvero \textbf{6.71 Mbps}. Al fine di verifica, si è provato ad eseguire la regressione lineare anche sui dati relativi al RTT medio. In questo caso, la retta estrapolata utilizzando l'intero set di dati si è dimostrata essere evidentemente incompatibile con quella ottenuta dai valori del RTT minimo. Tuttavia, eliminando dai valori considerati tutte le misurazioni con una deviazione standard troppo alta ($>10\,ms$) e le prime 20 misurazioni effettuate (di cui è già stato discusso il comportamento anomalo nella sezione \ref{par:x}), si è riusciti ad estrapolare una retta con una diversa intercetta (la cui differenza con del min potrebbe essere interpretata come \textit{ritardo di buffering medio}) ma stesso coefficiente angolare e, di conseguenza, stesso bitrate. Entrambe le rette estrapolate sono riportate in Figura \ref{fig:regr}.
 \begin{figure}[h!]
      \centering
          \includegraphics[scale=0.4]{img/clean.png}
@@ -201,7 +201,7 @@ A differenza di \texttt{ping}, gli output di questo programma sono stati salvati
 \newpage
 
 \noindent
-Una rappresentazione grafica dei risultati ottenuti è riportata in Figura \ref{fig:iperf}. Il valore medio del bitrate misurato dal programma \texttt{iperf} risulta quindi essere pari a \textbf{6.44 Mbps}.\\
+Una rappresentazione grafica dei risultati ottenuti è riportata in Figura \ref{fig:iperf}. Il valore medio del bitrate misurato dal programma \texttt{iperf} risulta essere pari a \textbf{6.44 Mbps}.\\
 
 \noindent
 È stato tuttavia osservato nel corso degli esperimenti come questo valore sia in realtà altamente dipendente da alcuni parametri del programma, come ad esempio l'intervallo di tempo impostato per effettuare la misurazione. All'aumentare di questo parametro, infatti, si è osservata una decrescita esponenziale del bitrate, che converge per tempi lunghi ai valori di media trovati precedentemente (Figura \ref{fig:iperftime}). Questo risultato può essere spiegato se considerata l'equazione con la quale il programma calcola il bitrate, ossia
@@ -209,7 +209,7 @@ Una rappresentazione grafica dei risultati ottenuti è riportata in Figura \ref{
 \label{eq:br}
 bitrate = \frac{bytes \ read}{time}
 \end{align}
-Andando a ridurre il tempo di misurazione si riduce il denominatore ad un rate evidentemente minore di quanto non si riduca il numeratore nello stesso intervallo. Inoltre, anche il protocollo utilizzato nella misurazione influisce notevolmente sui valori di bitrate ottenuti. Ripetendo infatti lo stesso esperimento a parità di condizioni i risultati sono stati notevolmente più grandi ($\approx 50\,Mbps$). Questo comportamento potrebbe essere spiegato invece dall'assenza di controlli sui pacchetti UDP e dal comportamento \textit{flood} che assume il programma in questa modalità (cerca di mandare più pacchetti UDP possibili nella rete nella finestra di misurazione), che a parità di denominatore determina una crescita importante del numeratore nell'Equazione (\ref{eq:br}).
+È possibile quindi che andando a ridurre il tempo di misurazione si riduca il denominatore ad un rate minore di quanto non si riduca il numeratore nello stesso intervallo. Inoltre, anche il protocollo utilizzato nella misurazione influisce notevolmente sui valori di bitrate ottenuti. Ripetendo infatti lo stesso esperimento a parità di condizioni i risultati sono stati notevolmente più grandi ($\approx 50\,Mbps$). Questo comportamento potrebbe essere spiegato invece dall'assenza di controlli sui pacchetti UDP e dal comportamento \textit{flood} che assume il programma in questa modalità (cerca di mandare più pacchetti UDP possibili nella rete nella finestra di misurazione), che a parità di denominatore determina una crescita importante del numeratore nell'Equazione (\ref{eq:br}).
 \begin{figure}[!htb]
    \begin{minipage}{0.48\textwidth}
      \centering
