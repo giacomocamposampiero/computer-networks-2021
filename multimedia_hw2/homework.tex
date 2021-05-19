@@ -209,7 +209,7 @@ Una rappresentazione grafica dei risultati ottenuti è riportata in Figura \ref{
 \label{eq:br}
 bitrate = \frac{bytes \ read}{time}
 \end{align}
-È possibile quindi che andando a ridurre il tempo di misurazione si riduca il denominatore ad un rate minore di quanto non si riduca il numeratore nello stesso intervallo. Inoltre, anche il protocollo utilizzato nella misurazione influisce notevolmente sui valori di bitrate ottenuti. Ripetendo infatti lo stesso esperimento a parità di condizioni i risultati sono stati notevolmente più grandi ($\approx 50\,Mbps$). Questo comportamento potrebbe essere spiegato invece dall'assenza di controlli sui pacchetti UDP e dal comportamento \textit{flood} che assume il programma in questa modalità (cerca di mandare più pacchetti UDP possibili nella rete nella finestra di misurazione), che a parità di denominatore determina una crescita importante del numeratore nell'Equazione (\ref{eq:br}).
+È possibile quindi che andando a ridurre il tempo di misurazione si riduca il denominatore ad un rate minore di quanto non si riduca il numeratore nello stesso intervallo. 
 \begin{figure}[!htb]
    \begin{minipage}{0.48\textwidth}
      \centering
