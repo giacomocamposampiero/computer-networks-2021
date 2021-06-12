@@ -7,4 +7,6 @@ the format "inputaudio*.data". Then, the corresponding results will be saved in 
 named "outputVAD*.txt", where * is the corresponding substring of the input file name.
 
 ## Linux command to run the script
+```
 matlab -nodisplay -r vad.m
+```
