@@ -1,5 +1,8 @@
 % Voice Activity Detection Algorithm
 
+% uncomment next line to enter debug mode
+ debug=1;
+
 % read the name of files contained in data/ folder which respect the 
 % defined syntax 'inputaudioN.data'
 files = struct2cell(dir('data/inputaudio*.data'));
@@ -14,8 +17,8 @@ for i = 1:size(files,2)
     % load track data
     inid = fopen(strcat('data/',name), 'r'); 
     data = fread(inid, 'int8');
-    fclose(inid);
-       
+    fclose(inid);  
+    
     % number of packet of the track, floor of the division data/packet_size
     pck_num = fix(size(data, 1)/160);
     pck_dim = 160;
@@ -49,19 +52,24 @@ for i = 1:size(files,2)
     for ii = 10:(pck_num-2)
         % get the corresponding window frames
         wd = data(1+(ii-1)*pck_dim:(ii+2)*pck_dim);
-        % ENERGY CLASSIFICATION
-        [class(1), ns_energy] = frame_energy_vad(wd, ns_energy, 5, p);
-        % ZERO CROSSINGS CLASSIFICATION
-        class(2) = frame_zc_vad(wd);
         % FREQUENCY CLASSIFICATION
-        [class(3), f_thr] = frame_freq_vad(wd, f_thr, 3, p);   
+        [class(3), f_thr] = frame_freq_vad(wd, f_thr, 3, p);
+        if(class(3) ~= 1)
+            % ENERGY CLASSIFICATION
+            [class(1), ns_energy] = frame_energy_vad(wd, ns_energy, 2, p);
+            if(class(2) ~= 1)
+                % ZERO CROSSINGS CLASSIFICATION
+                class(2) = frame_zc_vad(wd);
+            end
+        end
+          
         if(any(class))
             % at least one classificator classificated the frame as ACTIVE
             % set an ACTIVE classification for the frame
             output(ii) = 49;
         end
     end
-    
+  
     % open output file 
     outname = ['output/outputVAD' number{1} '.txt'];
     outid = fopen(outname, 'w+');
@@ -69,22 +77,33 @@ for i = 1:size(files,2)
     fwrite(outid, output, 'uint8');
     fclose(outid);
         
-% 	% DEBUG
-%     % apply the filter to the original track and save it as a .wav file, to
-%     % make possible a comparison between the two tracks
-%     dec = zeros(size(data, 1),1);
-%     for ii = 0:pck_num-1
-%         for iii = 1:160
-%             dec(1+160*ii+iii) = data(1+160*ii+iii).*(output(ii+1, 1)-48);
-%         end
-%     end
-%     % listen to original and modified tracks
-%     player = audioplayer(data, 8000);
-%     play(player);
-%     disp("stop");
-%     player = audioplayer(dec, 8000);
-%     play(player);
-%     audiowrite(strcat('out', int2str(i), '.wav'), dec, 8000);
+  	%%% START DEBUG
+    if(debug == 1)
+        % get output signal
+        dec = zeros(size(data, 1),1);
+        for ii = 0:pck_num-1
+            for iii = 1:160
+                dec(1+160*ii+iii) = data(1+160*ii+iii).*(output(ii+1, 1)-48);
+            end
+         end  
+%         % plot data
+%         fig = figure();
+%         plot(data, 'r');
+%         hold on
+%         plot(dec, 'k');
+%         saveas(fig, strcat("images/res", number), 'epsc');
+%         % listen to original and modified tracks
+        player = audioplayer(data, 8000);
+        play(player);
+        pause(8);
+        player = audioplayer(dec, 8000);
+        play(player);
+        pause(8);
+%         % write resulting track as wav file
+        audiowrite(strcat('outputaudio', int2str(i), '.wav'), dec, 8000);
+    %%% END DEBUG
+    end
+
 end
 
 % close all files and clear the environment
@@ -135,7 +154,7 @@ function [classification, updtd] = frame_freq_vad(frame, threshold, k, p)
     % get power for the frame frequency spectrum
     pw = pspectrum(frame);
     % compute the integral of power for frequencies in the range 1-1kHz
-    intg = sum(pw(1:500));
+    intg = sum(pw(1:1500));
     if(intg > k*threshold)
         % ACTIVE frame, set corresponding output
         classification = 1;
