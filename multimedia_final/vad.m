@@ -1,7 +1,8 @@
 % Voice Activity Detection Algorithm
 
+debug = 0;
 % uncomment next line to enter debug mode
- debug=1;
+% debug = 1;
 
 % read the name of files contained in data/ folder which respect the 
 % defined syntax 'inputaudioN.data'
@@ -21,9 +22,10 @@ for i = 1:size(files,2)
     
     % number of packet of the track, floor of the division data/packet_size
     pck_num = fix(size(data, 1)/160);
+    next_pck_num = ceil(size(data, 1)/160);
     pck_dim = 160;
     % classification values for each packet (0:INACTIVE, 1:ACTIVE)
-    output = 48.*ones(pck_num, 1);
+    output = 48.*ones(next_pck_num, 1);
     % learning rate for adapting thresholds
     p = 0.15;
     
@@ -86,20 +88,20 @@ for i = 1:size(files,2)
                 dec(1+160*ii+iii) = data(1+160*ii+iii).*(output(ii+1, 1)-48);
             end
          end  
-%         % plot data
-%         fig = figure();
-%         plot(data, 'r');
-%         hold on
-%         plot(dec, 'k');
-%         saveas(fig, strcat("images/res", number), 'epsc');
-%         % listen to original and modified tracks
+        % plot data
+        fig = figure();
+        plot(data, 'r');
+        hold on
+        plot(dec, 'k');
+        saveas(fig, strcat("images/res", number), 'epsc');
+        % listen to original and modified tracks
         player = audioplayer(data, 8000);
         play(player);
         pause(8);
         player = audioplayer(dec, 8000);
         play(player);
         pause(8);
-%         % write resulting track as wav file
+        % write resulting track as wav file
         audiowrite(strcat('outputaudio', int2str(i), '.wav'), dec, 8000);
     %%% END DEBUG
     end

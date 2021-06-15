@@ -35,7 +35,7 @@ presenza o l'assenza di voce umana all'interno di segnali audio. Questi algoritm
 \vspace{0.1cm}
 La letteratura scientifica è al giorno d'oggi ricca di metodi, proposti dalla comunità scientifica nel corso
 degli ultimi anni, per l'implementazione di un Voice Activity Detector. 
-In questo lavoro ne sono stati selezioni alcuni allo scopo di implementare un classificatore per
+In questo lavoro ne sono stati selezionati alcuni allo scopo di implementare un classificatore per
 l'identificazione del parlato in un segnale audio digitale mono, codificato mediante una modulazione ad impulsi
 codificati (PCM, dall'inglese \textit{Pulse-Code Modulation}) e pacchettizzati dal trasmettitore in pacchetti di
 160 campioni audio. La classificazione è eseguita con lo scopo di decidere quali pacchetti trasmettere
@@ -54,7 +54,7 @@ rispetto al loro utilizzo parallelo. I metodi che si è deciso di includere sfru
 \item \textbf{analisi nel dominio del tempo}, che deriva la presenza di voce dalle ampiezze del suono
 \item \textbf{analisi nel dominio della frequenza}, che deriva la presenza di voce a partire dallo studio in frequenza del segnale
 \end{itemize}
-In Figura (\ref{fig:diag}) è riportato il diagramma di flusso del metodo proposto. Il metodo proposto è stato implementato in Matlab. Ognuno dei singoli approcci inclusi nell'ensemble viene trattato più nel dettaglio nelle sezioni successive. 
+In Figura (\ref{fig:diag}) è riportato il diagramma di flusso del metodo proposto; l'implementazione di quest'ultimo è stata svolta in Matlab. Ognuno dei singoli approcci inclusi nell'ensemble viene trattato più nel dettaglio nelle sezioni successive. 
 
 \begin{figure}[h!]
 	\centering
@@ -101,7 +101,7 @@ Un secondo metodo di classificazione implementato al fine di migliorare le prest
 precedente, soprattutto nel caso di segnali a bassa energia, è basato sul numero di 
 \textit{zero crossing}. Tale valore è pari al numero di volte in cui il segnale interseca
 l'asse delle ascisse in un dato intervallo temporale. Il numero di crossing di un frame ACTIVE è contenuto
-in un range fisso \cite{Rabiner1975AnAF}, nel caso di un frammento ACTIVE di 10ms ad esempio pari a $[5,15]$. 
+in un range fisso che, nel caso di un frammento ACTIVE di 10ms, è all'incirca pari a $[5,15]$. 
 Nel caso di frame INACTIVE, al contrario, il numero di zero crossings è totalmente casuale. 
 Per sua stessa definizione, anche questo metodo esegue un'analisi del segnale nel dominio del tempo.
 
@@ -115,7 +115,7 @@ IF ($N_{zc} \in R$ ) ACTIVE
 ELSE INACTIVE
 \end{lstlisting}
 \end{quote}
-dove $N_{zc}$ equivale al numero di zero crossing in un dato pacchetto e $R$ è l'intervallo in cui indicativamente dovrebbe ricadere lo stesso per essere classificato come voce.
+dove $N_{zc}$ equivale al numero di zero crossing in un dato pacchetto e $R$ è l'intervallo in cui dovrebbe ricadere lo stesso per essere classificato come voce.
 
 \vspace{0.1cm}
 Anche in questo caso uno dei principali vantaggi dell'approccio consiste nella facilità di implementazione. Di
@@ -142,15 +142,15 @@ Come per il classificatore tratta nella Sezione \ref{sect:led}, una stima inizia
 10 frame della trasmissione non abbiano contenuto vocale. 
 Il valore di questa soglia viene anche in questo caso dinamicamente aggiornato secondo una relazione simile a (\ref{eq:upd}).
 
+Questo tipo di approccio è quello che, preso singolarmente, riesce ad ottenere i risultati migliori, non dipendendo di fatto dall'energia della voce ma solamente dalle sue componenti in frequenza. 
+
 \subsection{Finestra scorrevole}
-Al fine di migliorare le prestazioni dell'algoritmo, ogni frame viene classificato non solo sulla base dei
-campioni a lui appartenenti. É stata infatti implementata una di finestra di classificazione scorrevole,
-per cui la classificazione di ogni pacchetto è eseguita sulla base dei suoi campioni e di quelli del frame
-precedente e successivo. Questo ha permesso di ridurre sensibilmente il clipping sulla voce e rendere più
-fluido il risultato finale. 
+Al fine di migliorare le prestazioni dell'algoritmo è stato implementato un sistema a finestra scorrevole,
+in cui la classificazione di ogni pacchetto è eseguita sulla base del pacchetto stesso, del precedente e di quello successivo. Questo ha permesso di ridurre sensibilmente il clipping sulla voce e rendere più
+fluido il risultato finale, pur mantenendo un ritardo totale inferiore alla soglia limite. 
 
 \section{Risultati}
-{Sono di seguito riportati in Figura (\ref{fig:results}) i risultati della simulazione per i 5 file di test forniti dalla consegna. Nei grafici riportati la componente di colore nero corrisponde alle porzioni di segnale appartenenti a pacchetti classificati come ACTIVE, mentre la componente di colore rosso corrisponde alle porzioni classificate come INACTIVE.}
+{Sono riportati in Figura (\ref{fig:results}) i risultati della simulazione per i 5 file di test forniti dalla consegna. Nei grafici di seguito la componente di colore nero corrisponde alle porzioni di segnale appartenenti a pacchetti classificati come ACTIVE, che verrebbero quindi trasmessi dalla sorgente. La componente di colore rosso corrisponde invece alle porzioni classificate come INACTIVE, che verrebbero scartate e non trasmesse dalla sorgente.}
 
 \begin{figure}[ht]
   \centering
@@ -185,10 +185,10 @@ fluido il risultato finale.
   \label{fig:results}
 \end{figure}  
 
-\vspace{-0.3cm}
+\vspace{-0.5cm}
 \section{Conclusioni}
-Il metodo proposto per l'implementazione di un VAD sembra, almeno per le tracce audio fornite come esempio, eseguire una discriminazione efficace tra pacchetti ACTIVE e INACTIVE. Tuttavia, il metodo proposto rappresenta
-di fatto un'implementazione di fatto basilare e potrebbe, in presenza di rumori di fondo fortemente variabili
-o eterogenei o nel caso di SNR estremamente ridotto, risultare meno efficace nella classificazione dei pacchetti.
+Il metodo proposto per l'implementazione di un VAD restituisce risultati che, almeno per le tracce audio di test, si considerano essere soddisfacenti. Tuttavia, il metodo proposto rappresenta 
+un'implementazione estremamente basilare e potrebbe, in presenza di rumori di fondo fortemente variabili
+o eterogenei o nel caso di SNR estremamente ridotto, risultare meno efficace nella classificazione dei pacchetti. 
 
 \end{document}
