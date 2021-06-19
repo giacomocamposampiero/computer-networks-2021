@@ -2,7 +2,7 @@
 
 debug = 0;
 % uncomment next line to enter debug mode
-% debug = 1;
+ debug = 1;
 
 % read the name of files contained in data/ folder which respect the 
 % defined syntax 'inputaudioN.data'
@@ -41,9 +41,11 @@ for i = 1:size(files,2)
     % contain human voice samples, compute thresholds and other parameters
     % used by some of the methods implemented for INACTIVE frames
     ns_energy = 0;
-    f_thr = 200;
-    for ii = 1:9
+    f_thr = 0;
+    for ii = 2:10
         wd = data(1+(ii-1)*pck_dim:(ii+2)*pck_dim);
+        ipw = pspectrum(wd);
+        f_thr = f_thr + 0.1*sum(ipw(1:1500));
         ns_energy = ns_energy + 0.1*sum(wd.^2)/(pck_dim*3);
     end
     
@@ -51,7 +53,7 @@ for i = 1:size(files,2)
     % packets are analyzed in groups of 3 with step of 1 packet; with this
     % method, packets are never considered as single unit and this may help
     % classification
-    for ii = 10:(pck_num-2)
+    for ii = 11:(pck_num-2)
         % get the corresponding window frames
         wd = data(1+(ii-1)*pck_dim:(ii+2)*pck_dim);
         % FREQUENCY CLASSIFICATION
@@ -59,7 +61,7 @@ for i = 1:size(files,2)
         if(class(3) ~= 1)
             % ENERGY CLASSIFICATION
             [class(1), ns_energy] = frame_energy_vad(wd, ns_energy, 2, p);
-            if(class(2) ~= 1)
+            if(class(1) ~= 1)
                 % ZERO CROSSINGS CLASSIFICATION
                 class(2) = frame_zc_vad(wd);
             end
@@ -81,36 +83,32 @@ for i = 1:size(files,2)
         
   	%%% START DEBUG
     if(debug == 1)
-        % get output signal
         dec = zeros(size(data, 1),1);
         for ii = 0:pck_num-1
             for iii = 1:160
                 dec(1+160*ii+iii) = data(1+160*ii+iii).*(output(ii+1, 1)-48);
             end
-         end  
+        end
+        % get output signal
+        trc = [];
+        for ii = 0:pck_num-1
+            if(output(ii+1,1) == 49)
+                trc = [trc ; data(1+160*ii : 160*(ii+1))];
+            end
+        end  
+        outid = fopen(strcat("traccia", string(number{1}), ".data"), 'w+');
+        fwrite(outid, trc, 'int8');
+        fclose(outid);
         % plot data
         fig = figure();
         plot(data, 'r');
         hold on
         plot(dec, 'k');
         saveas(fig, strcat("images/res", number), 'epsc');
-        % listen to original and modified tracks
-        player = audioplayer(data, 8000);
-        play(player);
-        pause(8);
-        player = audioplayer(dec, 8000);
-        play(player);
-        pause(8);
-        % write resulting track as wav file
-        audiowrite(strcat('outputaudio', int2str(i), '.wav'), dec, 8000);
     %%% END DEBUG
     end
 
 end
-
-% close all files and clear the environment
-fclose('all');
-clear;
 
 function [classification, updtd] = frame_energy_vad(frame, ns_energy, k, p)
     % compute frame energy

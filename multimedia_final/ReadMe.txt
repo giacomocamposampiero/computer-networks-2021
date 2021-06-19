@@ -20,7 +20,8 @@ analysis is used within the script)
 matlab -batch "vad"
 
 ## Results for 5 audio test file
-Results for the 5 audio test files given are directly included in this folder.
-However, the zip packet is provided with the five inputs already present in the
-"data/" folder. Therefore, they can be computed again just by running the 
-script.
+Results for the 5 audio test files given are directly included in the folder
+"output/". However, the zip packet is provided with the five inputs already
+copied in the "data/" folder. Therefore, results for test audio files can be
+computed again just by running the script without doing nothing else. The
+script will automatically override existing output file, if any.
