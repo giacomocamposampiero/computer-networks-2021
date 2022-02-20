@@ -1,19 +1,20 @@
-## Computer Networks 1
+## Computer Networks 1 
 Assignments and code for the BSc course of Computer Networks 1 (Reti di Calcolatori 1) held in 2020 @ UniPD.
+The repo includes a cheatsheet with some useful commands and a basic `.vimrc` config file.
 
-#### Multimedia
+### Multimedia
 Contains my submissions for the three Matlab course projects.
 - UTF-8 encoding and decoding
 - `ping` and `iperf` commands analysis
 - Voice Activity Detection script
 
-#### Past exams
+### Past exams
 Contains my solutions for many past exams.
 
-#### Execises 
+### Execises 
 Contains C exercises given during the lectures.
 
-#### Lecture src
+### Lecture src
 Contains source code presented during lectures, commented.
 
 
