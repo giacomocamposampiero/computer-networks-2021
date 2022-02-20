@@ -1,0 +1,44 @@
++++++++
++ VIM +
++++++++
+
+:tabnew                     OPEN NEW TAB IN VIM
+:noh                        REMOVE RESEARCH HIGHLIGHTNING
+:q!                         EXIT WITHOUT SAVING   
+gg=G                        INDENT ALL THE FILE
+
++++++++++
++ LINUX +
++++++++++
+ls -s path dest             LINUX COMMAND TO CREATE SYMBOLIC LINK
+
++++++++
++  C  +
++++++++
+strncpy(dest, source, n)    COPY n CHAR FROM source TO dest
+malloc(dim)                 ALLOCATE dim BYTES OF DYNAMIC MEMORY
+free(buf)                   FREE SPACE PREVIOUSLY ALLOCATED WITH MALLOC AND REFERED BY buf
+
+itoa(x)                     CONVERT a INTEGER TO STRING
+atoi(x)                     CONVERT STRING REFERED BY x TO INTEGER
+sprintf(buf, "0x%x", a)     CONVERT AN INTEGER VALUE CONTAINED IN a TO HEX AND PRINT IT IN THE BUFFER buf
+strcmp(*st1, *st2)          COMPARE THE TWO STRINGS REFERENCED BY THE PARAMETRIC POINTERS
+strcpy(*dest, *source)      COPY dest IN source
+
+FILE *fp;                           FILE OPENING PROCEDURE
+fp = fopen("filename", "mode")      possible modes are: 
+                                        r (read only) 
+                                        w (writing, created if it doesn't exist, truncate if exists)
+                                        a (append mode)
+                                        r+ (open for reading and writing from the beginning)
+                                        w+ (open for reading and writing, override it if exists)
+                                        a+ (open for reading and writing, appending to the file)
+                                       
+char address[INET_ADDRSTRLEN];                                              READ THE IP ADDRESS FROM THE sockaddr STRUCT
+inet_ntop(AF_INET, &remote_addr.sin_addr, address, sizeof(address));        <arpa/inet.h> include is needed
+
+++++++++++
++ ERRORI +
+++++++++++
+
+--> \r e \n contano come 1 SOLO CARATTERE quando sono stampati
