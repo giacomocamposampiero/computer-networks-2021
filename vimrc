@@ -11,4 +11,4 @@ inoremap {<CR> {<CR>}<Esc>ko<tab>
 inoremap ( ()<Esc>ha
 inoremap [ []<Esc>ha
 inoremap " ""<Esc>ha
-
+syntax on
